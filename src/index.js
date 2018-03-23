@@ -20,6 +20,7 @@ const port = process.env.PORT || config.port;
 const bodyParser = require('body-parser');
 const http = require('http');
 const MongoClient = require('mongodb').MongoClient;
+const cors = require('cors')
 
 /*
  * Frameworks
@@ -38,6 +39,9 @@ app.use(bodyParser.json());     // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 	extended: true
 }));
+if (!config.production) {
+	app.use(cors());
+}
 
 /*
  * Routes
@@ -46,14 +50,6 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 // Connect to database
 MongoClient.connect(config.mongodb.uri, (err, db) => {
 	if(err) throw err;
-
-	// Enable JWT authentication middleware
-	app.use(jwt.authorize(db));
-	app.use(jwt.fallback);
-	app.use(jwt.catchUnauthorized);
-
-	// Enable admin overrides
-	app.use(api.adminOverride);
 
 	// API Routes
 	require(__dirname + '/routes/articlesAPI.js')(app, db);
