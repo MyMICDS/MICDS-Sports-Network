@@ -43,6 +43,14 @@ if (!config.production) {
 	app.use(cors());
 }
 
+// Error handling
+app.use(function (err, req, res, next) {
+	res.status(err.status || 500);
+	res.json({
+		error: err.message
+	});
+});
+
 /*
  * Routes
  */
