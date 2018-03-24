@@ -1,21 +1,31 @@
-const article = require(__dirname + '/../libs/articles.js');
+const articles = require(__dirname + '/../libs/articles.js');
 
 module.exports = (app, db) => {
 	app.post('/articles', (req, res, next) => {
 		const data = req.body;
-		article.post({name: 'jcai'}, data, db, err => {
+		articles.post({name: 'jcai'}, data, db, err => {
 			if (err) {
 				next(err);
 			}
+			res.json({ success: true });
 		});
 	});
 
 	app.get('/articles', (req, res, next) => {
-		article.get({name: 'jcai'}, db, (err, data) => {
+		articles.getList({name: 'jcai'}, db, (err, data) => {
 			if (err) {
 				next(err);
 			}
-			res.json(data);
+			res.json({ data });
+		});
+	});
+
+	app.get('/articles/:id', (req, res, next) => {
+		articles.get({ name: 'jcai' }, req.params.id, db, (err, data) => {
+			if (err) {
+				next(err);
+			}
+			res.json({ data });
 		});
 	});
 }
