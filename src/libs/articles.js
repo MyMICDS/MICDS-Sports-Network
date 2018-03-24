@@ -1,3 +1,5 @@
+const ObjectId = require('mongodb').ObjectId;
+
 function postArticle(user, data, db, callback) {
 	let articles = db.collection('articles');
 	articles.insertOne(data, err => {
@@ -20,7 +22,7 @@ function getArticleList(user, db, callback) {
 
 function getArticle(user, id, db, callback) {
 	let articles = db.collection('articles');
-	articles.findOne({ _id: id }, (err, doc) => {
+	articles.findOne({ _id: ObjectId(id) }, (err, doc) => {
 		if (err) {
 			callback(err, null);
 		}

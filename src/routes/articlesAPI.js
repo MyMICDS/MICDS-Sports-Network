@@ -7,7 +7,7 @@ module.exports = (app, db) => {
 			if (err) {
 				next(err);
 			}
-			res.json({ success: true });
+			res.json({ data: true });
 		});
 	});
 
@@ -16,7 +16,7 @@ module.exports = (app, db) => {
 			if (err) {
 				next(err);
 			}
-			res.json({ data });
+			res.json({ error: null, data });
 		});
 	});
 
@@ -25,7 +25,7 @@ module.exports = (app, db) => {
 			if (err) {
 				next(err);
 			}
-			res.json({ data });
+			res.json({ error: null, data });
 		});
 	});
 }
